@@ -1,6 +1,7 @@
 package controller;
 
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -229,9 +230,9 @@ public class Controller implements Initializable {
             AddBookedRoom teszt = new AddBookedRoom(firstName.getText(), lastName.getText(), phoneNum.getText(), floorList.getValue().toString(), doorList.getValue().toString(),
                     inDate.getValue().toString(), outDate.getValue().toString());
             price.setText(String.valueOf(actualBRoom.getPrice()));
-            logger.info("Sikeres foglalás!");
+            logger.info("Sikeres foglalas!");
         }else {
-            logger.error("Sikertelen foglalás!");
+            logger.error("Sikertelen foglalas!");
         }
     }
 
@@ -247,11 +248,11 @@ public class Controller implements Initializable {
             roomType.getItems().add(addType.getText());
 
             AddRoomDB addRoom = new AddRoomDB(addFloor.getText(), addDoor.getText(), addType.getText());
-            logger.info("Az új szoba sikeresen létrejött!");
+            logger.info("Az uj szoba sikeresen letrejott!");
             setRoomList();
-            logger.info("Sikeres szoba hozzáadás");
+            logger.info("Sikeres szoba hozzaadas");
         }else {
-            logger.error("Hiba a szoba létrehozásában");
+            logger.error("Hiba a szoba letrehozasaban");
         }
     }
 
@@ -259,29 +260,40 @@ public class Controller implements Initializable {
     /**
      * A legördülő menüket állítja, amelyből a szóbákhoz tartozó adatokat lehet kiválasztani(Emelet,ajtó,típus).
      */
-    /*public void setRoomList(){
-        ObservableList<String> floors=FXCollections.observableArrayList();
-        ObservableList<String> doors=FXCollections.observableArrayList();
-        ObservableList<String> person=FXCollections.observableArrayList();
-        for(int i=0;i<data2.size();i++){
-            floors.add(data2.get(i).getFloor());
-            doors.add(data2.get(i).getDoor());
-            person.add(data2.get(i).getRoomType());
-        }
-        floors=floors.stream().distinct().collect(Collectors.collectingAndThen(toList(), l -> FXCollections.observableArrayList(l)));
-        doors=doors.stream().distinct().collect(Collectors.collectingAndThen(toList(), l -> FXCollections.observableArrayList(l)));
-        person=person.stream().distinct().collect(Collectors.collectingAndThen(toList(), l -> FXCollections.observableArrayList(l)));
-
-        floorList.setItems(floors);
-        floorList.getSelectionModel().selectFirst();
-        doorList.setItems(doors);
-        doorList.getSelectionModel().selectFirst();
-        roomType.setItems(person);
-        roomType.getSelectionModel().selectFirst();
-        logger.info("A legördülő lista létrejött.");
-    }*/
-
     public void setRoomList(){
+
+        floorList.setItems(data2.stream()
+                .map(i -> i.getFloor())
+                .distinct()
+                .collect(Collectors.collectingAndThen(toList(), l -> FXCollections.observableArrayList(l))));
+
+        floorList.setValue("");
+        floorList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                doorList.setItems(data2.stream()
+                        .filter(door -> door.getFloor().toString().contains((newValue.toString())))
+                        .map(i -> i.getDoor())
+                        .distinct()
+                        .collect(Collectors.collectingAndThen(toList(), l -> FXCollections.observableArrayList(l))));
+
+            }
+        });
+
+        doorList.setValue("");
+
+        doorList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                System.out.println("hiba3");
+                roomType.setValue("");
+                roomType.setItems(data2.stream()
+                        .filter(door -> door.getDoor().toString().contains((newValue.toString())))
+                        .map(i -> i.getRoomType())
+                        .distinct()
+                        .collect(Collectors.collectingAndThen(toList(), l -> FXCollections.observableArrayList(l))));
+            }
+        });
 
     }
 
@@ -347,7 +359,7 @@ public class Controller implements Initializable {
 
         table.getColumns().addAll(firstNameCol,lastNameCol,phoneNumCol,floorCol,doorCol,inDateCol,outDateCol);
         table.setItems(data3);
-        logger.info("A táblázat létrejött.");
+        logger.info("A tablazat letrejott.");
     }
 
     /**
@@ -357,7 +369,7 @@ public class Controller implements Initializable {
     public void readRooms(){
         ReadRoomsDB rooms=new ReadRoomsDB();
         data2=rooms.getData2();
-        logger.info("A szobák beolvasása az XML-ből sikeresen megtörtént.");
+        logger.info("A szobak beolvasasa az XML-bol sikeresen megtortent.");
     }
 
     /**
@@ -367,7 +379,7 @@ public class Controller implements Initializable {
     public  void readReservations(){
         ReadBookedDB reservations=new ReadBookedDB();
         data3=reservations.getData3();
-        logger.info("A foglalások beolvasása az XML-ből sikeresen megtörtént.");
+        logger.info("A foglalasok beolvasasa az XML-bol sikeresen megtörtent.");
     }
 
     /**
@@ -396,7 +408,7 @@ public class Controller implements Initializable {
                     data3.get(i).getInDate().equals(inDate.getValue().toString())
                     && data3.get(i).getOutDate().equals(outDate.getValue().toString())) {
                 alert("már foglalt.");
-                break;
+                return false;
             }
         }
         logger.info("Az adatok validok.");
@@ -463,5 +475,6 @@ public class Controller implements Initializable {
         setRoomList();
         inDate.setValue(now);
         outDate.setValue(now);
+
     }
 }

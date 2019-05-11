@@ -37,9 +37,9 @@ public class ReadBookedDB {
     {
         try {
             db = dbf.newDocumentBuilder();
-            File input = new File(getClass().getClassLoader().getResource("reservations.xml").getFile());
-
+            File input = new File("reservations.xml");
             Document document=db.parse(input);
+
             NodeList nodeList=document.getElementsByTagName("reservation");
             for (int i=0;i<nodeList.getLength();i++){
                 Node node=nodeList.item(i);

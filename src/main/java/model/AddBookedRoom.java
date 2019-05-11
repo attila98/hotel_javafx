@@ -7,19 +7,20 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * A foglalások adatbázisba történő írását megvalósító osztály.
  */
 public class AddBookedRoom {
+    private static final Logger logger = LogManager.getLogger(AddBookedRoom.class);
 
     /**
      * Az oszály konstruktora.
@@ -53,8 +54,7 @@ public class AddBookedRoom {
             try {
                 db = dbf.newDocumentBuilder();
 
-                File input=new File(getClass().getClassLoader().getResource("reservations.xml").getFile());
-
+                File input=new File("reservations.xml");
                 Document document=db.parse(input);
 
                 Element root=document.getDocumentElement();
@@ -93,19 +93,20 @@ public class AddBookedRoom {
                 Transformer transformer=tf.newTransformer();
 
                 DOMSource source =new DOMSource(document);
-                StreamResult result=new StreamResult(getClass().getClassLoader().getResource("reservations.xml").getFile());
+                StreamResult result=new StreamResult(new File("reservations.xml"));
+                transformer.getOutputProperty(OutputKeys.INDENT);
                 transformer.transform(source,result);
 
             } catch (ParserConfigurationException e) {
-                e.printStackTrace();
+                logger.error(e);
             } catch (SAXException e) {
-                e.printStackTrace();
+                logger.error(e);
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error(e);
             } catch (TransformerConfigurationException e) {
-                e.printStackTrace();
+                logger.error(e);
             } catch (TransformerException e) {
-                e.printStackTrace();
+                logger.error(e);
             }
         }
 

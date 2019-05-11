@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><rooms>
+    <room><emelet>1</emelet><ajto>1</ajto><tipus>ketagyas</tipus></room>
+    <room><emelet>1</emelet><ajto>2</ajto><tipus>ketagyas</tipus></room>
+	<room><emelet>1</emelet><ajto>3</ajto><tipus>egyagyas</tipus></room>
+	<room><emelet>1</emelet><ajto>4</ajto><tipus>egyagyas</tipus></room>
+	<room><emelet>1</emelet><ajto>5</ajto><tipus>egyagyas</tipus></room>
+    <room><emelet>2 </emelet><ajto>1</ajto><tipus>kétagyas</tipus></room>
+	<room><emelet>2 </emelet><ajto>2</ajto><tipus>kétagyas</tipus></room>
+	<room><emelet>2 </emelet><ajto>3</ajto><tipus>egyagyas</tipus></room>
+	<room><emelet>2 </emelet><ajto>4</ajto><tipus>egyagyas</tipus></room>
+	<room><emelet>2 </emelet><ajto>5</ajto><tipus>egyagyas</tipus></room>
+	<room><emelet>2 </emelet><ajto>66</ajto><tipus>egyagyas</tipus></room>
+</rooms>

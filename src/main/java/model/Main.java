@@ -28,7 +28,7 @@ public class Main extends Application {
         primaryStage.setResizable(false);
         primaryStage.setTitle("Szoba foglalás");
         primaryStage.show();
-        logger.info("A kezdő képernyő megjelent.");
+        logger.info("A kezdo kepernyo megjelent.");
     }
 
     /**

@@ -37,9 +37,9 @@ public class ReadRoomsDB {
     {
         try {
             db = dbf.newDocumentBuilder();
-            File input = new File(getClass().getClassLoader().getResource("rooms.xml").getFile());
-
+            File input = new File("rooms.xml");
             Document document=db.parse(input);
+
             NodeList nodeList=document.getElementsByTagName("room");
             for (int i=0;i<nodeList.getLength();i++){
                 Node node=nodeList.item(i);

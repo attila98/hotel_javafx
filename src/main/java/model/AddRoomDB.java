@@ -7,10 +7,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
@@ -47,7 +44,7 @@ public class AddRoomDB {
             try {
                 db = dbf.newDocumentBuilder();
 
-                File input=new File(getClass().getClassLoader().getResource("rooms.xml").getFile());
+                File input=new File("rooms.xml");
 
                 Document document= db.parse(input);
 
@@ -72,7 +69,8 @@ public class AddRoomDB {
                 Transformer transformer=tf.newTransformer();
 
                 DOMSource source =new DOMSource(document);
-                StreamResult result=new StreamResult(getClass().getClassLoader().getResource("rooms.xml").getFile());
+                StreamResult result=new StreamResult(new File("rooms.xml"));
+                transformer.getOutputProperty(OutputKeys.INDENT);
                 transformer.transform(source,result);
 
 
