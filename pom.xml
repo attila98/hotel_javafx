@@ -19,7 +19,9 @@
     </developers>
 
     <scm>
-        <!--TODO-->
+        <url>https://github.com/attila98/hotel_javafx</url>
+        <connection>scm:git:git:https://github.com/attila98/hotel_javafx.git</connection>
+        <developerConnection>scm:git:git@github.com:attila98/hotel_javafx.git</developerConnection>
     </scm>
 
     <licenses>

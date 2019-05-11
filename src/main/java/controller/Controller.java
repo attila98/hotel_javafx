@@ -1,7 +1,6 @@
 package controller;
 
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -230,9 +229,9 @@ public class Controller implements Initializable {
             AddBookedRoom teszt = new AddBookedRoom(firstName.getText(), lastName.getText(), phoneNum.getText(), floorList.getValue().toString(), doorList.getValue().toString(),
                     inDate.getValue().toString(), outDate.getValue().toString());
             price.setText(String.valueOf(actualBRoom.getPrice()));
-            logger.info("Sikeres foglalas!");
+            logger.info("Sikeres foglalás!");
         }else {
-            logger.error("Sikertelen foglalas!");
+            logger.error("Sikertelen foglalás!");
         }
     }
 
@@ -248,11 +247,11 @@ public class Controller implements Initializable {
             roomType.getItems().add(addType.getText());
 
             AddRoomDB addRoom = new AddRoomDB(addFloor.getText(), addDoor.getText(), addType.getText());
-            logger.info("Az uj szoba sikeresen letrejott!");
+            logger.info("Az új szoba sikeresen létrejött!");
             setRoomList();
-            logger.info("Sikeres szoba hozzaadas");
+            logger.info("Sikeres szoba hozzáadás");
         }else {
-            logger.error("Hiba a szoba letrehozasaban");
+            logger.error("Hiba a szoba létrehozásában");
         }
     }
 
@@ -260,6 +259,28 @@ public class Controller implements Initializable {
     /**
      * A legördülő menüket állítja, amelyből a szóbákhoz tartozó adatokat lehet kiválasztani(Emelet,ajtó,típus).
      */
+    /*public void setRoomList(){
+        ObservableList<String> floors=FXCollections.observableArrayList();
+        ObservableList<String> doors=FXCollections.observableArrayList();
+        ObservableList<String> person=FXCollections.observableArrayList();
+        for(int i=0;i<data2.size();i++){
+            floors.add(data2.get(i).getFloor());
+            doors.add(data2.get(i).getDoor());
+            person.add(data2.get(i).getRoomType());
+        }
+        floors=floors.stream().distinct().collect(Collectors.collectingAndThen(toList(), l -> FXCollections.observableArrayList(l)));
+        doors=doors.stream().distinct().collect(Collectors.collectingAndThen(toList(), l -> FXCollections.observableArrayList(l)));
+        person=person.stream().distinct().collect(Collectors.collectingAndThen(toList(), l -> FXCollections.observableArrayList(l)));
+
+        floorList.setItems(floors);
+        floorList.getSelectionModel().selectFirst();
+        doorList.setItems(doors);
+        doorList.getSelectionModel().selectFirst();
+        roomType.setItems(person);
+        roomType.getSelectionModel().selectFirst();
+        logger.info("A legördülő lista létrejött.");
+    }*/
+
     public void setRoomList(){
 
         floorList.setItems(data2.stream()
@@ -267,31 +288,15 @@ public class Controller implements Initializable {
                 .distinct()
                 .collect(Collectors.collectingAndThen(toList(), l -> FXCollections.observableArrayList(l))));
 
-        floorList.setValue("");
-        floorList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
-            @Override
-            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                doorList.setItems(data2.stream()
-                        .filter(door -> door.getFloor().toString().contains((newValue.toString())))
-                        .map(i -> i.getDoor())
-                        .distinct()
-                        .collect(Collectors.collectingAndThen(toList(), l -> FXCollections.observableArrayList(l))));
-
-                doorList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
-                    @Override
-                    public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                        if (newValue!=null){
-                            roomType.setItems(data2.stream()
-                                    .filter(door -> door.getDoor().toString().contains((newValue.toString())))
-                                    .map(i -> i.getRoomType())
-                                    .distinct()
-                                    .collect(Collectors.collectingAndThen(toList(), l -> FXCollections.observableArrayList(l))));
-                        }
-                    }
-
-                });
-            }
-        });
+        doorList.setItems(data2.stream()
+                //.filter(room -> room.getFloor().equals(floorList.getValue()))
+                .map(i -> i.getDoor())
+                .distinct()
+                .collect(Collectors.collectingAndThen(toList(), l -> FXCollections.observableArrayList(l))));
+        roomType.setItems(data2.stream()
+                .map(i -> i.getRoomType())
+                .distinct()
+                .collect(Collectors.collectingAndThen(toList(), l -> FXCollections.observableArrayList(l))));
     }
 
 
@@ -356,7 +361,7 @@ public class Controller implements Initializable {
 
         table.getColumns().addAll(firstNameCol,lastNameCol,phoneNumCol,floorCol,doorCol,inDateCol,outDateCol);
         table.setItems(data3);
-        logger.info("A tablazat letrejott.");
+        logger.info("A táblázat létrejött.");
     }
 
     /**
@@ -472,6 +477,5 @@ public class Controller implements Initializable {
         setRoomList();
         inDate.setValue(now);
         outDate.setValue(now);
-
     }
 }
