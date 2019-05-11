@@ -277,24 +277,21 @@ public class Controller implements Initializable {
                         .distinct()
                         .collect(Collectors.collectingAndThen(toList(), l -> FXCollections.observableArrayList(l))));
 
+                doorList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+                    @Override
+                    public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                        if (newValue!=null){
+                            roomType.setItems(data2.stream()
+                                    .filter(door -> door.getDoor().toString().contains((newValue.toString())))
+                                    .map(i -> i.getRoomType())
+                                    .distinct()
+                                    .collect(Collectors.collectingAndThen(toList(), l -> FXCollections.observableArrayList(l))));
+                        }
+                    }
+
+                });
             }
         });
-
-        doorList.setValue("");
-
-        doorList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
-            @Override
-            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                System.out.println("hiba3");
-                roomType.setValue("");
-                roomType.setItems(data2.stream()
-                        .filter(door -> door.getDoor().toString().contains((newValue.toString())))
-                        .map(i -> i.getRoomType())
-                        .distinct()
-                        .collect(Collectors.collectingAndThen(toList(), l -> FXCollections.observableArrayList(l))));
-            }
-        });
-
     }
 
 
