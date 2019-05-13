@@ -20,6 +20,9 @@ import org.apache.logging.log4j.Logger;
  * A foglalások adatbázisba történő írását megvalósító osztály.
  */
 public class AddBookedRoom {
+    /**
+     * A logger létrehozása.
+     */
     private static final Logger logger = LogManager.getLogger(AddBookedRoom.class);
 
     /**

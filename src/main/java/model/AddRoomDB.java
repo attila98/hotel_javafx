@@ -1,5 +1,7 @@
 package model;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -18,6 +20,10 @@ import java.io.IOException;
  */
 public class AddRoomDB {
 
+    /**
+     * A logger létrehozása.
+     */
+    private static final Logger logger = LogManager.getLogger(AddRoomDB.class);
 
     /**
      * Az osztály konstruktora.
@@ -75,15 +81,15 @@ public class AddRoomDB {
 
 
             } catch (ParserConfigurationException e) {
-                e.printStackTrace();
+                logger.error(e);
             } catch (TransformerConfigurationException e) {
-                e.printStackTrace();
+                logger.error(e);
             } catch (TransformerException e) {
-                e.printStackTrace();
+                logger.error(e);
             } catch (SAXException e) {
-                e.printStackTrace();
+                logger.error(e);
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error(e);
             }
 
         }

@@ -1,6 +1,8 @@
 package model;
 
 import javafx.beans.property.SimpleStringProperty;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -13,6 +15,11 @@ import java.util.concurrent.TimeUnit;
  * A foglalásokat megvalósító osztály.
  */
 public class BookedRoom {
+
+    /**
+     * A logger létrehozása.
+     */
+    private static final Logger logger = LogManager.getLogger(AddRoomDB.class);
     /**
      * A foglalásban részt vevő személy.
      */
@@ -66,6 +73,7 @@ public class BookedRoom {
      * @return a foglalás ára
      */
     public long getPrice(){
+        logger.info("Az ár számítása megtörént!");
         DateFormat format=new SimpleDateFormat("yyyy-MM-dd");
         long diff=0;
         long days=0;
@@ -86,7 +94,6 @@ public class BookedRoom {
         }else{
             return days*DAILYPRICE;
         }
-
     }
 
     /**
@@ -122,7 +129,7 @@ public class BookedRoom {
     }
 
     /**
-     * Napi ár
+     * Napi ár.
      * @return napi ár
      */
     public static int getDAILYPRICE() {

@@ -3,6 +3,8 @@ package model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.BookedRoom;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -19,6 +21,11 @@ import java.io.IOException;
  * A foglalt szobák adatbázisból való kiolvasását megvalósító osztály.
  */
 public class ReadBookedDB {
+
+    /**
+     * A logger létrehozása.
+     */
+    private static final Logger logger = LogManager.getLogger(AddRoomDB.class);
 
     /**
      * A foglalt szobák tarolására alkalmas lista.
@@ -58,11 +65,11 @@ public class ReadBookedDB {
             }
 
         } catch (ParserConfigurationException e) {
-            e.printStackTrace();
+            logger.error(e);
         } catch (SAXException e) {
-            e.printStackTrace();
+            logger.error(e);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e);
         }
     }
 

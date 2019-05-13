@@ -232,7 +232,7 @@ public class Controller implements Initializable {
             price.setText(String.valueOf(actualBRoom.getPrice()));
             logger.info("Sikeres foglalas!");
         }else {
-            logger.error("Sikertelen foglalas!");
+            logger.info("Sikertelen foglalas!");
         }
     }
 
@@ -252,7 +252,7 @@ public class Controller implements Initializable {
             setRoomList();
             logger.info("Sikeres szoba hozzaadas");
         }else {
-            logger.error("Hiba a szoba letrehozasaban");
+            logger.info("Hiba a szoba letrehozasaban");
         }
     }
 
@@ -267,6 +267,7 @@ public class Controller implements Initializable {
                 .distinct()
                 .collect(Collectors.collectingAndThen(toList(), l -> FXCollections.observableArrayList(l))));
 
+
         floorList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
@@ -280,6 +281,7 @@ public class Controller implements Initializable {
                 doorList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
                     @Override
                     public void changed(ObservableValue observable, Object oldValue, Object newValue1) {
+
                         if (newValue1!=null){
                             roomType.setItems(data2.stream()
                                     .filter(door -> door.getFloor().toString().contains((newValue.toString()))
@@ -292,6 +294,8 @@ public class Controller implements Initializable {
                 });
             }
         });
+        logger.info("ChoiceBox létrejött!");
+
     }
 
 
@@ -399,12 +403,17 @@ public class Controller implements Initializable {
         }else if(choosenInDate.isBefore(now) || choosenOutDate.isBefore(choosenInDate)){
             alert("dátum");
             return false;
+        }else if(floorList.getValue()==null || doorList.getValue()==null || roomType.getValue()==null)
+        {
+            alert("szoba adatok");
+            return false;
         }
+
         for(int i=0;i<data3.size();i++){
             if(data3.get(i).getR().getFloor().equals(floorList.getValue())  && data3.get(i).getR().getDoor().equals(doorList.getValue()) &&
                     data3.get(i).getInDate().equals(inDate.getValue().toString())
                     && data3.get(i).getOutDate().equals(outDate.getValue().toString())) {
-                alert("már foglalt.");
+                alert("már foglalt");
                 return false;
             }
         }
@@ -412,6 +421,11 @@ public class Controller implements Initializable {
         return true;
     }
 
+
+    /**
+     * Ellenőrzi a szoba hozzáadásánál megadott adatok validságát.
+     * @return true, ha minden renden van. false, ha valami nem helyes
+     */
     public boolean checkAddRoom(){
         if(addType.getText().isEmpty()){
             alert("típus");
@@ -423,6 +437,7 @@ public class Controller implements Initializable {
             alert("emelet");
             return false;
         }
+        logger.info("Az adatok validok.");
         return true;
     }
 
