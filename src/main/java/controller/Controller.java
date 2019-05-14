@@ -272,26 +272,28 @@ public class Controller implements Initializable {
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
 
-                doorList.setItems(data2.stream()
-                        .filter(door -> door.getFloor().toString().contains((newValue.toString())))
-                        .map(i -> i.getDoor())
-                        .distinct()
-                        .collect(Collectors.collectingAndThen(toList(), l -> FXCollections.observableArrayList(l))));
+                if (newValue != null) {
+                    doorList.setItems(data2.stream()
+                            .filter(door -> door.getFloor().toString().contains((newValue.toString())))
+                            .map(i -> i.getDoor())
+                            .distinct()
+                            .collect(Collectors.collectingAndThen(toList(), l -> FXCollections.observableArrayList(l))));
 
-                doorList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
-                    @Override
-                    public void changed(ObservableValue observable, Object oldValue, Object newValue1) {
+                    doorList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+                        @Override
+                        public void changed(ObservableValue observable, Object oldValue, Object newValue1) {
 
-                        if (newValue1!=null){
-                            roomType.setItems(data2.stream()
-                                    .filter(door -> door.getFloor().toString().contains((newValue.toString()))
-                                    && door.getDoor().toString().contains((newValue1.toString())))
-                                    .map(i -> i.getRoomType())
-                                    .distinct()
-                                    .collect(Collectors.collectingAndThen(toList(), l -> FXCollections.observableArrayList(l))));
+                            if (newValue1 != null) {
+                                roomType.setItems(data2.stream()
+                                        .filter(door -> door.getFloor().toString().contains((newValue.toString()))
+                                                && door.getDoor().toString().contains((newValue1.toString())))
+                                        .map(i -> i.getRoomType())
+                                        .distinct()
+                                        .collect(Collectors.collectingAndThen(toList(), l -> FXCollections.observableArrayList(l))));
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         });
         logger.info("ChoiceBox létrejött!");
